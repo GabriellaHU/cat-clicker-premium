@@ -1,115 +1,131 @@
 // ----------------------------------------------
-// ----------- Cat Picture Randomizer -----------
+// ----------------- Cat Pictures ---------------
 // ----------------------------------------------
 
 //array of cat pictures
 const cats = [
   {
     src: 'images/5372754294_db6acaa1e5_z.jpg',
-    name: 'Grumpy'
+    name: 'Grumpy',
+    count: 0,
+
   },
   {
     src: 'images/5655186625_2eedca4fc6_z.jpg',
-    name: 'Tiger'
+    name: 'Tiger',
+    count: 0,
+
   },
   {
     src: 'images/5675069067_c427114ce0_z.jpg',
-    name:'Shylo'
+    name:'Shylo',
+    count: 0,
+
   },
   {
     src: 'images/8086455101_227ba7054d_z.jpg',
-    name: 'Bob'
+    name: 'Bob',
+    count: 0,
+
+
   },
   {
     src: 'images/12367551225_3c15302538_z.jpg',
-    name: 'Cutie'
+    name: 'Cutie',
+    count: 0,
+
   }
 ];
 
-//select an image from the cats array
-const catLength = (cats.length)-1;
+
+// ----------------------------------------------
+// ------------------ Init Cat  -----------------
+// ----------------------------------------------
 
 //figure element that holds the cat picture
-const catContainer = document.querySelector('.img_container');
 
-let catImg = document.createElement('img');
-let catName = document.createElement('figcaption');
+const catContainer = document.querySelector('.img-container');
+const catImg = document.createElement('img');
+const catName = document.createElement('figcaption');
 
-const catContainer2 = document.querySelector('.img_container2');
-
-let catImg2 = document.createElement('img');
-let catName2 = document.createElement('figcaption');
-
-catImg.setAttribute('alt', 'cat');
-catImg.setAttribute('class', 'cat-pic');
-
-catImg2.setAttribute('alt', 'cat');
-catImg2.setAttribute('class', 'cat-pic2');
-
-//init and refresh cat pic on click
-const refreshCat = function(){
-
-  let randomNum = getRandomIntInclusive(0, catLength);
-  let randomCat = cats[randomNum].src;
-  let randomName = cats[randomNum].name;
-
-  catImg.setAttribute('src', randomCat);
-  catContainer.appendChild(catImg);
-  catName.textContent = randomName
-  catContainer.appendChild(catName);
-};
-
-const refreshCat2 = function(){
-
-  let randomNum = getRandomIntInclusive(0, catLength);
-  let randomCat = cats[randomNum].src;
-  let randomName = cats[randomNum].name;
-
-  catImg2.setAttribute('src', randomCat);
-  catContainer2.appendChild(catImg2);
-  catName2.textContent = randomName;
-  catContainer2.appendChild(catName2);
-};
-
-refreshCat();
-refreshCat2();
-
-//funtion that generates a random value
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
 
 // ----------------------------------------------
-// ----------------- CAT CLICK ------------------
+// --------------- Cat Selector -----------------
 // ----------------------------------------------
 
-const catPic = document.querySelector('.cat-pic');
+const catSelector = document.querySelector('.cat-radiogroup');
 const counter = document.querySelector('.counter');
+// const catChooser = function(cats) {
+//   return
+for (let i = 0; i < cats.length; i++) {
 
-const catPic2 = document.querySelector('.cat-pic2');
-const counter2 = document.querySelector('.counter2');
+    const catSelection = document.createElement('input');
+    catSelection.setAttribute('type', 'radio');
+    catSelection.setAttribute('id', i);
+    catSelection.setAttribute('name', 'cat');
+    catSelection.setAttribute('aria-checked', 'false');
+    catSelection.setAttribute('value', cats[i].name);
+    catSelector.appendChild(catSelection);
 
-let count = 0
-let count2 = 0
+    const catLabel = document.createElement('label');
+    catLabel.setAttribute('for', cats[i].name);
+    catLabel.textContent = cats[i].name;
+    catSelector.appendChild(catLabel);
 
-catContainer.addEventListener('click', function(){
-  // refresh picture
-  refreshCat();
-  // count score based on clicking
-  const increaseCount = function(){
-    count++;
-    counter.textContent = `Cat clicks: ${count}`;
-  }();
-}, false);
+    catSelection.addEventListener('click', (function(iCopy) {
+      return function() {
+           let selectedCat = cats[iCopy].src;
+           let selectedName = cats[iCopy].name;
+           let selectedID = cats[iCopy].id;
 
-catContainer2.addEventListener('click', function(){
-  // refresh picture
-  refreshCat2();
-  // count score based on clicking
-  const increaseCount = function(){
-    count2++;
-    counter2.textContent = `Cat clicks: ${count2}`;
-  }();
-}, false);
+           catSelection.setAttribute('aria-checked', 'true');
+
+
+           catImg.setAttribute('src', selectedCat);
+           catContainer.appendChild(catImg);
+           selectedCat.textContent = selectedName
+           catContainer.appendChild(catName);
+
+          };
+      })(i));
+
+};
+
+function initCat() {
+
+  catImg.setAttribute('alt', 'cat');
+  catImg.setAttribute('class', 'cat-pic');
+  catImg.setAttribute('src', cats[0].src);
+  catContainer.appendChild(catImg);
+  document.getElementById('0').setAttribute('aria-checked', 'true');
+}
+
+initCat();
+
+
+catContainer.addEventListener('click', function() {
+
+  switch (catSelection.id) {
+    case 0 :
+      cats[0].count =  cats[0].count + 1;
+      counter.textContent = `Cat clicks: ${cats[0].count}`;
+      break;
+    case 1 :
+        cats[1].count =  cats[1].count + 1;
+      counter.textContent = `Cat clicks: ${cats[1].count}`;
+      break;
+    case 2 :
+        cats[2].count =  cats[2].count + 1;
+      counter.textContent = `Cat clicks: ${cats[2].count}`;
+      break;
+    case 3 :
+      cats[3].count =  cats[3].count + 1;
+      counter.textContent = `Cat clicks: ${cats[3].count}`;
+      break;
+    case 4 :
+      cats[4].count =  cats[4].count + 1;
+      counter.textContent = `Cat clicks: ${cats[4].count}`;
+      break;
+  };
+
+ });
